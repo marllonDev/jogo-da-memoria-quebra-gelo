@@ -24,13 +24,15 @@ Um jogo de memória interativo desenvolvido especificamente para ser usado como 
 - **Acessibilidade** e usabilidade pensadas para todos os níveis técnicos
 
 ## 🚀 Como Usar
+### Opção 1: Acesse o link do projeto no Ar
+ - Esse projeto está no GitHub Pages, então basta acessar o link a seguir: [Clique Aqui](https://www.linkedin.com/in/marllonzuc/)
 
-### Opção 1: Execução Direta
+### Opção 2: Execução Direta
 1. Faça o download do arquivo `index.html`
 2. Abra o arquivo em qualquer navegador web moderno
 3. O jogo estará pronto para usar!
 
-### Opção 2: Servidor Local (Recomendado para apresentações)
+### Opção 3: Servidor Local
 ```bash
 # Clone o repositório
 git clone https://github.com/seu-usuario/jogo-memoria-quebra-gelo.git
@@ -49,134 +51,42 @@ python -m SimpleHTTPServer 8000
 npx http-server
 
 # Acesse http://localhost:8000 no navegador
+```
 
-Opção 3: GitHub Pages
+###🎯 Como Usar em Reuniões
+Para Moderadores:
 
-Faça fork deste repositório
-Vá em Settings > Pages
-Selecione a branch main como source
-Seu jogo estará disponível em 
-https://seu-usuario.github.io/jogo-memoria-quebra-gelo
-🎯 Como Usar em Reuniões
+Abra o jogo em uma tela compartilhada ou projete para todos verem
+Explique as regras: 
+ 1 - Encontrar pares de emojis clicando nas cartas
+ 2 - Jogue colaborativamente com a equipe sugerindo cartas para virar, se a pessoa errar, então pode girar o dado e ele deve responder a pergunta. Se acertar, o dado é girado, e a pessoa escolhe quem irá responder.
+ 3 - Use as perguntas durante ou após o jogo para iniciar conversas Dinâmicas Sugeridas
+ 4 - Toda a equipe joga junta, jogando papo fora.
 
-Para Moderadores
 
-Abra o jogo
- em uma tela compartilhada ou projete para todos verem
-Explique as regras
-: encontrar pares de emojis clicando nas cartas
-Jogue colaborativamente
- com a equipe sugerindo cartas para virar
-Use as perguntas
- durante ou após o jogo para iniciar conversas
-Dinâmicas Sugeridas
+### 🎉 Casos de Uso
+Empresas e Startups:
+- Onboarding de novos funcionários
+- Quebra-gelo em workshops
+- Educação e Treinamento
+- Antes de Daily's 
 
-Modo Colaborativo
-: Toda a equipe joga junta, discutindo estratégias
-Modo Competitivo
-: Divida em times pequenos e compare pontuações
-Foco nas Perguntas
-: Use o jogo como aquecimento e foque nas discussões
-Quebra-gelo Rápido
-: 5-10 minutos no início de reuniões
-🛠️ Tecnologias Utilizadas
-
-HTML5
-: Estrutura semântica e acessível
-CSS3
-: Animações, gradientes e design responsivo
-JavaScript Vanilla
-: Lógica do jogo sem dependências externas
-Design Responsivo
-: Funciona em todos os dispositivos
-📱 Compatibilidade
-
-✅ Chrome 60+
-✅ Firefox 55+
-✅ Safari 12+
-✅ Edge 79+
-✅ Dispositivos móveis (iOS/Android)
-🎨 Personalização
-
-O jogo foi desenvolvido para ser facilmente personalizável:
-
-Modificar Emojis
-
-// Linha 89 no arquivo index.html
-const emojis = ['😊', '🚀', '💡', '🎯', '⭐', '🔥'];
-// Substitua pelos emojis desejados (mantenha 6 únicos)
-
-Adicionar/Modificar Perguntas
-
-// Linha 92 no arquivo index.html
-const questions = [
-    "Sua pergunta personalizada aqui...",
-    // Adicione quantas perguntas quiser
-];
-
-Personalizar Cores
-
-Modifique as variáveis CSS nos gradientes para alterar o esquema de cores:
-
-/* Exemplos de gradientes no arquivo */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-🤝 Contribuindo
-
-Contribuições são bem-vindas! Para contribuir:
-
-Faça fork do projeto
-Crie uma branch para sua feature (
-git checkout -b feature/AmazingFeature
-)
-Commit suas mudanças (
-git commit -m 'Add some AmazingFeature'
-)
-Push para a branch (
-git push origin feature/AmazingFeature
-)
-Abra um Pull Request
-Ideias para Contribuições
-
-[ ] Novos temas de emojis (natureza, comida, esportes)
-[ ] Sistema de dificuldade (mais cartas, menos tempo)
-[ ] Banco de perguntas categorizadas
-[ ] Modo multiplayer online
-[ ] Estatísticas avançadas
-[ ] Temas visuais alternativos
-📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo 
-LICENSE
- para mais detalhes.
-
-🎉 Casos de Uso
-
-Empresas e Startups
-
-Onboarding de novos funcionários
-Team buildings e retreats
-Reuniões de kick-off de projetos
-Quebra-gelo em workshops
-Educação e Treinamento
-
-Início de cursos e workshops
-Dinâmicas em sala de aula
-Eventos de networking
-Conferências e seminários
-Comunidades e Grupos
-
-Meetups e eventos
-Grupos de estudo
-Comunidades online
-Eventos de networking
-📞 Suporte
-
-Encontrou um bug ou tem uma sugestão?
-
-Abra uma 
-https://github.com/seu-usuario/jogo-memoria-quebra-gelo/issues
-Entre em contato: [seu-email@exemplo.com]
 Desenvolvido com ❤️ para conectar pessoas e equipes
-
 ⭐ Se este projeto foi útil para você, considere dar uma estrela no repositório!
+
+## Sobre mim
+𝐒𝐞𝐧𝐢𝐨𝐫 𝐃𝐚𝐭𝐚 𝐄𝐧𝐠𝐢𝐧𝐞𝐞𝐫
+
+Com 𝟰+ 𝘆𝗲𝗮𝗿𝘀 de experiência no mundo da tecnologia, eu me desenvolvo na interseção entre engenharia de dados e inovação. Atualmente, estou criando ecossistemas de dados escaláveis como 𝗦𝗲𝗻𝗶𝗼𝗿 𝗗𝗮𝘁𝗮 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿. Aperfeiçoei minhas habilidades em setores que moldam as economias - desde 𝗺𝗮𝗶𝗼𝗿𝗲𝘀 𝗯𝗮𝗻𝗰𝗼𝘀 𝗱𝗼 𝗕𝗿𝗮𝘀𝗶𝗹 e 𝘀𝗲𝗴𝘂𝗿𝗮𝗱𝗼𝗿𝗮𝘀 𝗹𝗶𝗱𝗲𝗿𝗲𝘀 𝗺𝘂𝗻𝗱𝗶𝗮𝗶𝘀, até o 𝗺𝗮𝗶𝗼𝗿 𝗽𝗿𝗼𝗱𝘂𝘁𝗼𝗿 𝗱𝗲 𝗰𝗲𝗿𝘃𝗲𝗷𝗮 do mundo, e agora estou causando impacto no 𝘀𝗲𝘁𝗼𝗿 𝗱𝗼 𝗰𝗿𝗲𝗱𝗶𝘁𝗼. 
+
+💡 𝗣𝗼𝗿𝗾𝘂𝗲 𝗲𝘂 𝗺𝗲 𝗱𝗲𝘀𝘁𝗮𝗰𝗼? \
+Eu 𝗮𝗿𝗾𝘂𝗶𝘁𝗲𝘁𝗼 𝗽𝗶𝗽𝗲𝗹𝗶𝗻𝗲𝘀 de dados robustos para 𝗙𝗼𝗿𝘁𝘂𝗻𝗲 𝟱𝟬𝟬 𝗽𝗹𝗮𝘆𝗲𝗿𝘀, otimizei os sistemas legados para nuvem (𝗔𝗪𝗦/𝗔𝘇𝘂𝗿𝗲) que forneceram insights acionáveis por meio de estruturas ETL/ELT escaláveis. Da análise financeira em tempo real à otimização da cadeia de suprimentos de cervejarias, eu transformo dados brutos em ativos estratégicos. 
+
+✨ 𝗔𝗹𝗲𝗺 𝗱𝗼 𝗰𝗼𝗱𝗶𝗴𝗼: \
+Um aprendiz permanente obcecado com a democratização de dados e a solução ágil de problemas. Vamos nos conectar se você estiver 𝗮𝗽𝗮𝗶𝘅𝗼𝗻𝗮𝗱𝗼 sobre a nuvem, eficiência do 𝗗𝗲𝘃𝗢𝗽𝘀 ou o papel dos dados na transformação dos setores!
+
+Me siga: [Linkedin](https://www.linkedin.com/in/marllonzuc/) \
+Meu Blog: [Blog](https://datatrends.me/)
+
+
+![Logo](https://media.licdn.com/dms/image/v2/D4D03AQEFlFTNmApBhQ/profile-displayphoto-shrink_800_800/B4DZbt9iTrHsAc-/0/1747749054334?e=1756944000&v=beta&t=NW8glGWRr3nju_eTn_S49tng936yy-t1pxHxTU0JZ38)
