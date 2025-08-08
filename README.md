@@ -25,7 +25,7 @@ Um jogo de memória interativo desenvolvido especificamente para ser usado como 
 
 ## 🚀 Como Usar
 ### Opção 1: Acesse o link do projeto no Ar
- - Esse projeto está no GitHub Pages, então basta acessar o link a seguir: [Clique Aqui](https://www.linkedin.com/in/marllonzuc/)
+ - Esse projeto está no GitHub Pages, então basta acessar o link a seguir: [Clique Aqui]((https://marllondev.github.io/jogo-da-memoria-quebra-gelo/))
 
 ### Opção 2: Execução Direta
 1. Faça o download do arquivo `index.html`
@@ -90,3 +90,4 @@ Meu Blog: [Blog](https://datatrends.me/)
 
 
 ![Logo](https://media.licdn.com/dms/image/v2/D4D03AQEFlFTNmApBhQ/profile-displayphoto-shrink_800_800/B4DZbt9iTrHsAc-/0/1747749054334?e=1756944000&v=beta&t=NW8glGWRr3nju_eTn_S49tng936yy-t1pxHxTU0JZ38)
+
