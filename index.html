@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Configurações básicas da página -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Memória - Quebra-Gelo para Equipes</title>
+    <!-- Estilos CSS do jogo -->
+    <style>
+        /* Reset CSS para remover margens e paddings padrão */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo do corpo da página com gradiente de fundo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container principal que centraliza o conteúdo do jogo */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Cabeçalho do jogo com título e descrição */
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Área principal onde o jogo acontece */
+        .game-area {
+            padding: 40px;
+        }
+
+        /* Área de estatísticas do jogo (jogadas, pares, tempo) */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
+        /* Grade onde as cartas do jogo são exibidas (4 colunas) */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Estilo das cartas do jogo de memória */
+        .card {
+            aspect-ratio: 1; /* Mantém as cartas quadradas */
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo das cartas viradas */
+        .card.flipped {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            transform: rotateY(180deg);
+        }
+
+        /* Estilo das cartas que formaram um par */
+        .card.matched {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            animation: pulse 0.6s ease-in-out; /* Animação quando um par é encontrado */
+        }
+
+        /* Estilo do verso das cartas (quando não estão viradas) */
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Animação de pulso quando um par é encontrado */
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Seção de perguntas para quebrar o gelo */
+        .question-section {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .question-section h2 {
+            color: #2d3436;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .current-question {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .current-question h3 {
+            color: #2d3436;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .current-question p {
+            color: #636e72;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .question-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Tela de fim de jogo (inicialmente oculta) */
+        .game-over {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            border-radius: 20px;
+            margin-top: 30px;
+            display: none; /* Começa oculta e é exibida quando o jogo termina */
+        }
+
+        .game-over h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .game-over p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        /* Estilos responsivos para telas menores (tablets e celulares) */
+        @media (max-width: 768px) {
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr); /* Muda para 3 colunas em telas menores */
+            }
+
+            .stats {
+                flex-direction: column; /* Empilha as estatísticas em telas menores */
+            }
+
+            .header h1 {
+                font-size: 2rem; /* Reduz o tamanho do título */
+            }
+
+            .card {
+                font-size: 2rem; /* Reduz o tamanho dos emojis */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Jogo de Memória - Quebra-Gelo</h1>
+            <p>Conecte-se com sua equipe através de diversão e conversas!</p>
+        </div>
+
+        <div class="game-area">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="moves">0</h3>
+                    <p>Jogadas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="matches">0</h3>
+                    <p>Pares Encontrados</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="timer">00:00</h3>
+                    <p>Tempo</p>
+                </div>
+            </div>
+
+            <div class="memory-grid" id="gameGrid">
+                <!-- Cards serão gerados pelo JavaScript -->
+            </div>
+
+            <div class="question-section">
+                <h2>💬 Pergunta para Quebrar o Gelo</h2>
+                <div class="current-question">
+                    <h3>Pergunta #<span id="questionNumber">1</span></h3>
+                    <p id="questionText">Qual emoji melhor descreve sua manhã?</p>
+                </div>
+                <div class="question-controls">
+                    <button class="btn btn-primary" onclick="previousQuestion()">⬅️ Anterior</button>
+                    <button class="btn btn-secondary" onclick="nextQuestion()">Próxima ➡️</button>
+                    <button class="btn btn-success" onclick="randomQuestion()">🎲 Aleatória</button>
+                </div>
+            </div>
+
+            <div class="game-over" id="gameOver">
+                <h2>🎉 Parabéns!</h2>
+                <p>Você completou o jogo! Agora é hora de usar essas perguntas para conhecer melhor sua equipe.</p>
+                <button class="btn btn-primary" onclick="resetGame()">🔄 Jogar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * JAVASCRIPT DO JOGO DE MEMÓRIA
+         */
+        
+        // Emojis para o jogo (6 pares)
+        // Cada emoji aparecerá duas vezes no jogo para formar pares
+        const emojis = ['😊', '🚀', '💡', '🎯', '⭐', '🔥'];
+
+        // Lista de perguntas para quebrar o gelo entre os membros da equipe
+        // Estas perguntas são exibidas na seção inferior do jogo
+        const questions = [
+            "Qual emoji melhor descreve sua manhã?",
+            "Se você fosse um super-herói no trabalho, qual seria seu superpoder?",
+            "Qual é uma habilidade de trabalho que você se orgulha de ter desenvolvido?",
+            "Se pudesse ter uma conversa de 30 minutos com qualquer pessoa, viva ou morta, quem seria?",
+            "Qual é o melhor conselho profissional que você já recebeu?",
+            "Se você pudesse automatizar uma tarefa do seu dia a dia, qual seria?",
+            "Qual é sua forma favorita de comemorar uma conquista no trabalho?",
+            "Se sua equipe fosse uma banda, que instrumento você tocaria?",
+            "Qual é um hobby ou interesse que seus colegas ficariam surpresos em saber sobre você?",
+            "Se você pudesse adicionar uma nova tradição à sua equipe, qual seria?"
+        ];
+
+        // Objeto que armazena o estado atual do jogo
+        let gameState = {
+            cards: [],           // Array com todas as cartas do jogo
+            flippedCards: [],   // Array com as cartas atualmente viradas
+            matches: 0,         // Contador de pares encontrados
+            moves: 0,           // Contador de jogadas realizadas
+            timer: 0,           // Tempo decorrido em segundos
+            gameStarted: false, // Flag que indica se o jogo já começou
+            currentQuestion: 0  // Índice da pergunta atual exibida
+        };
+
+        // Variável para armazenar o intervalo do timer
+        let timerInterval;
+
+        /**
+         * Função que inicializa o jogo
+         * - Cria e embaralha as cartas
+         * - Adiciona as cartas ao grid
+         * - Reseta o estado do jogo
+         */
+        function initGame() {
+            // Criar array de cartas (cada emoji aparece 2 vezes)
+            const cardEmojis = [...emojis, ...emojis];
+
+            // Embaralhar as cartas usando o algoritmo Fisher-Yates (ou Knuth)
+            // Este algoritmo garante que todas as permutações são igualmente prováveis
+            for (let i = cardEmojis.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardEmojis[i], cardEmojis[j]] = [cardEmojis[j], cardEmojis[i]];
+            }
+
+            // Limpar o grid e criar elementos das cartas
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = ''; // Remove cartas anteriores, se houver
+
+            // Para cada emoji no array embaralhado, cria uma carta no grid
+            cardEmojis.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.emoji = emoji;  // Armazena o emoji como atributo data
+                card.dataset.index = index;  // Armazena o índice como atributo data
+                card.innerHTML = `
+                    <div class="card-back">?</div>
+                `;
+                // Adiciona o evento de clique para virar a carta
+                card.addEventListener('click', () => flipCard(card));
+                grid.appendChild(card);
+            });
+
+            // Reseta o estado do jogo para os valores iniciais
+            gameState = {
+                cards: cardEmojis,    // Armazena o array de cartas embaralhadas
+                flippedCards: [],     // Limpa as cartas viradas
+                matches: 0,           // Zera o contador de pares
+                moves: 0,             // Zera o contador de jogadas
+                timer: 0,             // Zera o timer
+                gameStarted: false,   // Marca o jogo como não iniciado
+                currentQuestion: 0    // Volta para a primeira pergunta
+            };
+
+            updateStats();
+            document.getElementById('gameOver').style.display = 'none';
+        }
+
+        /**
+         * Função que controla o virar de uma carta
+         * @param {HTMLElement} card - Elemento da carta clicada
+         */
+        function flipCard(card) {
+            // Verifica se a carta já está virada, já foi encontrada ou se já existem 2 cartas viradas
+            // Se qualquer condição for verdadeira, ignora o clique
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || gameState.flippedCards.length >= 2) {
+                return;
+            }
+
+            // Se for a primeira jogada, inicia o timer
+            if (!gameState.gameStarted) {
+                startTimer();
+                gameState.gameStarted = true;
+            }
+
+            // Vira a carta, mostra o emoji e adiciona ao array de cartas viradas
+            card.classList.add('flipped');
+            card.innerHTML = card.dataset.emoji; // Substitui o ? pelo emoji
+            gameState.flippedCards.push(card);   // Adiciona à lista de cartas viradas
+
+            // Se já tiver duas cartas viradas, incrementa o contador de jogadas
+            // e verifica se formam um par após um pequeno delay
+            if (gameState.flippedCards.length === 2) {
+                gameState.moves++;
+                updateStats(); // Atualiza o contador de jogadas na interface
+
+                // Aguarda 1 segundo antes de verificar o par (para o jogador memorizar)
+                setTimeout(() => {
+                    checkMatch();
+                }, 1000);
+            }
+        }
+
+        /**
+         * Função que verifica se as duas cartas viradas formam um par
+         */
+        function checkMatch() {
+            // Extrai as duas cartas viradas do array
+            const [card1, card2] = gameState.flippedCards;
+
+            // Verifica se os emojis das duas cartas são iguais
+            if (card1.dataset.emoji === card2.dataset.emoji) {
+                // Par encontrado - marca as cartas como encontradas
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                gameState.matches++; // Incrementa o contador de pares encontrados
+
+                // Verifica se todos os pares foram encontrados
+                if (gameState.matches === emojis.length) {
+                    // Jogo completo - para o timer e mostra a tela de fim de jogo
+                    clearInterval(timerInterval);
+                    setTimeout(() => {
+                        document.getElementById('gameOver').style.display = 'block';
+                    }, 500); // Pequeno delay para mostrar a tela de fim de jogo
+                }
+            } else {
+                // Não é um par - vira as cartas de volta
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                // Restaura o verso das cartas (símbolo de interrogação)
+                card1.innerHTML = '<div class="card-back">?</div>';
+                card2.innerHTML = '<div class="card-back">?</div>';
+            }
+
+            // Limpa o array de cartas viradas e atualiza as estatísticas
+            gameState.flippedCards = [];
+            updateStats();
+        }
+
+        /**
+         * Função que atualiza as estatísticas exibidas na interface
+         */
+        function updateStats() {
+            // Atualiza o número de jogadas e pares encontrados na interface
+            document.getElementById('moves').textContent = gameState.moves;
+            document.getElementById('matches').textContent = gameState.matches;
+        }
+
+        /**
+         * Função que inicia o timer do jogo
+         */
+        function startTimer() {
+            // Configura um intervalo que incrementa o timer a cada segundo
+            timerInterval = setInterval(() => {
+                gameState.timer++; // Incrementa o contador de segundos
+                
+                // Calcula minutos e segundos
+                const minutes = Math.floor(gameState.timer / 60);
+                const seconds = gameState.timer % 60;
+                
+                // Atualiza o timer na interface no formato MM:SS
+                document.getElementById('timer').textContent =
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000); // Intervalo de 1 segundo
+        }
+
+        /**
+         * Funções para controlar as perguntas de quebra-gelo
+         */
+        
+        // Avança para a próxima pergunta
+        function nextQuestion() {
+            // Avança para a próxima pergunta (com loop quando chegar ao final)
+            gameState.currentQuestion = (gameState.currentQuestion + 1) % questions.length;
+            updateQuestion(); // Atualiza a pergunta exibida
+        }
+
+        // Volta para a pergunta anterior
+        function previousQuestion() {
+            // Volta para a pergunta anterior (com loop quando estiver na primeira)
+            gameState.currentQuestion = gameState.currentQuestion === 0 ? questions.length - 1 : gameState.currentQuestion - 1;
+            updateQuestion(); // Atualiza a pergunta exibida
+        }
+
+        // Seleciona uma pergunta aleatória
+        function randomQuestion() {
+            // Gera um índice aleatório entre 0 e o número total de perguntas
+            gameState.currentQuestion = Math.floor(Math.random() * questions.length);
+            updateQuestion(); // Atualiza a pergunta exibida
+        }
+
+        /**
+         * Função que atualiza a pergunta exibida na interface
+         */
+        function updateQuestion() {
+            // Atualiza o número da pergunta (índice + 1 para começar em 1 em vez de 0)
+            document.getElementById('questionNumber').textContent = gameState.currentQuestion + 1;
+            // Atualiza o texto da pergunta
+            document.getElementById('questionText').textContent = questions[gameState.currentQuestion];
+        }
+
+        /**
+         * Função que reinicia o jogo
+         */
+        function resetGame() {
+            clearInterval(timerInterval); // Para o timer
+            initGame(); // Reinicializa o jogo
+        }
+
+        // Inicializa o jogo quando a página terminar de carregar
+        window.addEventListener('load', initGame);
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9636580882f6f203',t:'MTc1MzIyMzAyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
